@@ -3,5 +3,4 @@
 
 
 
-#based on this article: TraPHic: Trajectory Prediction in Dense and Heterogeneous Traffic Using
-Weighted Interactions
+#based on this article: An LSTM Network for Highway Trajectory Prediction
