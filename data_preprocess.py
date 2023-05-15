@@ -1,4 +1,3 @@
-import os
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -44,8 +43,7 @@ class DataProcessor:
                 if object_id not in data_by_object:
                     data_by_object[object_id] = []
                 data_by_object[object_id].append(item)
-
-        # Create sequences of features for each object
+        #Create sequences of features for each object
         sequences = []
         for object_id, data in data_by_object.items():
             if len(data) < seq_length:
@@ -53,23 +51,22 @@ class DataProcessor:
             for i in range(len(data) - seq_length):
                 seq = data[i:i + seq_length]
                 sequences.append(seq)
-
-        # Split data into train and test sets
+        #Split data into train and test sets
         train_data, test_data = train_test_split(sequences, test_size=test_size, random_state=random_state)
 
-        # Prepare data for model training
+        #Prepare data for model training
         train_X = np.array([seq[:-1] for seq in train_data])
         train_Y = np.array([seq[-1][3:6] for seq in train_data])
         test_X = np.array([seq[:-1] for seq in test_data])
         test_Y = np.array([seq[-1][3:6] for seq in test_data])
 
-        # Normalize features
+        #Normalize features
         scaler = StandardScaler()
         train_X = scaler.fit_transform(train_X.reshape(-1, train_X.shape[-1])).reshape(train_X.shape)
-        test_X = scaler.transform(test_X.reshape(-1, test_X.shape[-1])).reshape(test_X.shape)
+        test_X_Normalize = scaler.transform(test_X.reshape(-1, test_X.shape[-1])).reshape(test_X.shape)
 
-        # Reshape input for LSTM model
+        #Reshape input for LSTM model
         train_X = np.reshape(train_X, (train_X.shape[0], seq_length-1, train_X.shape[2]))
-        test_X = np.reshape(test_X, (test_X.shape[0], seq_length-1, test_X.shape[2]))
+        test_X_Normalize = np.reshape(test_X_Normalize, (test_X_Normalize.shape[0], seq_length-1, test_X_Normalize.shape[2]))
 
-        return train_X, train_Y, test_X, test_Y
+        return train_X, train_Y, test_X_Normalize, test_Y,test_X

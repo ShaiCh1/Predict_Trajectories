@@ -11,7 +11,7 @@ class ModelSearch:
 
     def create_model(self, learning_rate=0.001, num_filters=16, filter_size=3, lstm_units=32,
                      dense_units=[16, 8]):
-        # Define model architecture
+        #Define model architecture
         model = Sequential()
         model.add(Conv1D(num_filters, filter_size, activation='relu', padding='same', input_shape=(self.train_X.shape[1], self.train_X.shape[2])))
         model.add(MaxPooling1D(2))
@@ -23,7 +23,7 @@ class ModelSearch:
             model.add(Dropout(0.2))
         model.add(Dense(3))
 
-        # Compile model
+        #Compile model
         optimizer = optimizers.Adam(lr=learning_rate)
         model.compile(loss='mse', optimizer=optimizer)
 
